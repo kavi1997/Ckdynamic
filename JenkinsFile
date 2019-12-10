@@ -15,7 +15,7 @@ pipeline
               sh 'mvn clean install'
                  }
          }
-    /*     stage('SonarQube analysis') {
+    /*   stage('SonarQube analysis') {
        steps{
         withSonarQubeEnv('SonarQube') {
             sh 'mvn sonar:sonar'
@@ -37,5 +37,12 @@ pipeline
           }   
         }
     }*/
-      }
+    stage("Deploy")
+    {
+    steps
+    {
+    deploy adapters: [tomcat8(credentialsId: 'Tomcat', path: '', url: 'http://18.217.173.116:8880')], contextPath: 'currency', onFailure: false, war: '**/*.war'
+    }
+    }
+    }
 }
